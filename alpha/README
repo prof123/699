@@ -1,0 +1,46 @@
+README
+
+Djando resources: 
+The djangobook is the best resource for django. Chapters on forms, templates, views, models and sessions are the ones which are useful.
+
+
+What is done. (hopefully) :
+Visible stuff:
+* Some rudimentary index page with links for chat ,login, registration
+* Barebones chat screen to take input message.
+* Registration screen. Login screen. Backends to be done (simple 3 liners, but because this doesnt obsturct the main goal ive not done this. See djangobook on how to do this...copy/paste job.)
+
+Backend stuff:
+* see models.py for the database models.
+* Registration handling done by django, have tested it and it DOES make sure user is unique and passwords match etc. Quite nice.
+* Login too (might have been broken, but djangobook has code snippet for this too)
+* 
+
+What remains to be done :
+--AJAX
+* The AJAX-django API is as follows:
+1. chat/?getMsg=True
+  the js code shoud GET this url to notify django that its ready to get the new messages pending for it. 
+The result is /some/ XML file (or whatever, that part is not implemented. See comment on line 30 of chat.py
+
+2. chat/?alive=True
+   The js code GETS this url to notify that the server that the user is 'alive'. This doesnt return anything..just used for keeping track of dead/alive usrs.
+
+
+--Pretty Html/CSS
+* Modify templates in the template folder to make webpages functional and nicer looking. 
+
+--Chatbot addition
+
+-- Deployment
+Deploy the app on apache. Django testing webserver not the correct way to do it and also doesnt support multiple clients!
+
+
+Real trivial stuff:
+All the advanced scores and other heuristics are dead simple and i can hammer it together in a few hours before deadline. :P
+
+Ugly Hacks (Read this!) :
+* Currently only one user per browser session. This means we cant chat using 2 different tabs etc. 
+* One fix for this needs client side js support. While POSTing, the js posts an additional 'id' parameter (which is uinque to a js instance==tab) and that is used to identify the uid. In that case uid = sid+id (concatenate)
+* No error detection or processing. Form validation not really done too..
+

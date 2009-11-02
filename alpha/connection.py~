@@ -1,0 +1,83 @@
+## Has functions needed for establishing connections between users and keeping track of all the data..
+import django.http
+from django.template import Template, Context
+from django import forms
+from django.shortcuts import render_to_response
+from django.contrib.sessions.models import Session
+from alpha.models import Connections, FreeList, UserList,Users
+
+##Given a session-id, let's populate the Session tables with all data we need to keep track of.
+## NOTE: Strictly this needs to be a per-uid table not per-session id. BUT no harm in keeping some fields anyways :)
+
+def get_uid(sid) :
+    """
+    Generates a user-id (uid) given a session-id. This needs to be an invertible function. 
+    """
+    return sid
+
+def get_sid(uid) :
+    """uid to sid"""
+    return uid
+
+def get_chat_partner(uid) :
+    """Search for values of uid which are there in the Free list
+    """
+    freelist = Users.objects.filter(status="FREE")
+#    freelist = Users.objects.get(status="FREE")
+
+    return uid
+
+def send_message(msg, uid) :
+    """
+    sender pushes message (msg) to its chat partner. This function must figure out whom to send it to and all of that
+    Either use message queues or brute-force refresh or whatever..
+    """
+    #get chatpartner
+    Users.objects.get(uid=uid)
+    #put it in his queue
+
+
+def add_to_queue(msg, sid) :
+    
+    
+def register_user(request) :
+    """
+    Performs various tasks like updating tables when a user connects. Only for new users
+    """
+    u1 = Users(uid=sid, status = "FREE", partner ='NULL', score1 ='0' , score2='0', mq0 ='', mq1 ='' , time = '000')
+    u1.save()
+##Catch Key errors?
+
+def sid_active(sid) :
+    """means that user is already chatting. No need to do anything
+    Check this by iterating over the dictionary of uid:sid pairs.
+    """
+    u = Users.objects.get(uid=sid)
+    if contains(str(u.status),"ACTIVE") :
+        return True
+    else :
+        return False
+
+
+def first_contact(request) :
+    """Determine if following conditions hold:
+    1. User has just logged in.
+    2. Anon opens the chat tab.
+    Need to update connection tables and userlists etc.
+    """
+    sid = request.COOKIES['sessionid']
+    uid = get_uid(sid)
+
+    add_to_userlist(uid)
+    
+    chat_uid = get_chat_partner(uid)
+    ### Returns -1 if fails..
+
+    if chat_uid == -1 : 
+        """ Try again after some time
+        """
+        pass
+
+    else :
+        pass
+
